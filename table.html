@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glucose</title>
+    <!-- <link rel="icon" type="image/png" href="https://www.google.com/s2/favicons?domain=jacinto.design"> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+    <form class="w3-container w3-card-4 w3-light-grey" action="/" method="post">
+        <h1>Input Form</h1>
+        <p>
+            <label>Date</label>
+            <input class="w3-input w3-border w3-round" name="date" type="date">
+        </p>
+        <p>
+            <select class="w3-select" name="meal">
+                <option value="" disabled selected>Choose meal</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="second_breakfast">Second breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="afternoon_tea">Afternoon tea</option>
+                <option value="dinner">Dinner</option>
+                <option value="second_dinner">Second dinner</option>
+            </select>
+        </p>
+        <p>
+            <label>Input Food</label>
+            <input class="w3-input w3-border w3-round" name="food" type="text">
+        </p>
+        <div class="w3-row-padding">
+            <div class="w3-half">
+              <label>Glucose Before</label>
+              <input class="w3-input w3-border" name="glucose_before" type="number">
+            </div>
+            <div class="w3-half">
+              <label>Glucose 1 hour after</label>
+              <input class="w3-input w3-border" name="glucose_1hr_after" type="number">
+            </div>
+        </div>
+        <button class="w3-button w3-round" type="submit" name="submit">Submit</button>
+    </form>
+
+
+    <h1>Food and glucose table</h1>
+    <table class="w3-table-all">
+        <thead>
+            <tr class="w3-light-blue">
+                <th rowspan=2>Дата</th>
+                <th colspan=2 class="w3-center">Завтрак</th>
+                <th colspan=2 class="w3-center">Перекус</th>
+                <th colspan=2 class="w3-center">Обед</th>
+                <th colspan=2 class="w3-center">Полдник</th>
+                <th colspan=2 class="w3-center">Ужин</th>
+                <th colspan=2 class="w3-center">Перекус</th>
+            </tr>
+            <tr class="w3-light-blue">
+                <th class="w3-center">Натощак</th>
+                <th class="w3-center">1ч после</th>
+                <th class="w3-center">Перед</th>
+                <th class="w3-center">1ч после</th>
+                <th class="w3-center">Перед</th>
+                <th class="w3-center">1ч после</th>
+                <th class="w3-center">Перед</th>
+                <th class="w3-center">1ч после</th>
+                <th class="w3-center">Перед</th>
+                <th class="w3-center">1ч после</th>
+                <th class="w3-center">Перед</th>
+                <th class="w3-center">1ч после</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>18.06.21</td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center">3.9</td>
+                <td class="w3-center"></td>
+                <td class="w3-center">4.7</td>
+            </tr>
+            <tr>
+                <td>19.06.21</td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center"></td>
+                <td class="w3-center">3.9</td>
+                <td class="w3-center"></td>
+                <td class="w3-center">4.7</td>
+            </tr>
+        </tbody>
+        <tfoot>
+
+
+        </tfoot>
+    </table>
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>

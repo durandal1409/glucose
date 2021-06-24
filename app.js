@@ -6,8 +6,6 @@ const mongoose = require("mongoose");
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true});
-
 const mealSchema = new mongoose.Schema({
     food: String,
     glucose_before: Number,
@@ -35,40 +33,29 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
     
-    console.log("body: ", req.body);
+    console.log("posting data: ", req.body);
+    mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
     
 
-    Meals.find({_id: "60d0ca00ad89623e5f2ec351"}, function(err, meals) {
-        if (err) {
-            console.log(err);
-        } else {
-            if (meals==true) {
-                Meals.updateOne({date: req.body.date}, {$set: {"breakfast.glucose_1hr_after": 110}}, function(err) {
-                    if (err) {
-                        console.log("Here is an error: ", err);
-                    } else {
-                        console.log("Updated successfully.");
-                        mongoose.connection.close();
-                    }
-                });
-            } else {
-                const meal = req.body.meal;
-                const meals = new Meals({
-                    date: req.body.date,
-                    [req.body.meal]: {
-                        food: req.body.food,
-                        glucose_before: req.body.glucose_before,
-                        glucose_1hr_after: req.body.glucose_1hr_after   
-                    }
-                    
-
-                });
-                meals.save();
-                // mongoose.connection.close();
+    Meals.findOneAndUpdate({date: req.body.date}, {
+            [req.body.meal]: {
+                food: req.body.food,
+                glucose_before: req.body.glucose_before,
+                glucose_1hr_after: req.body.glucose_1hr_after   
             }
-        };
-    });
-    res.send("SSSSSSS");
+        },
+        {upsert: true},   
+        function(err, meals) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("found document: ", meals);
+            }
+
+            mongoose.connection.close();
+        }
+    );
+    res.redirect("/");
 });
 
 
