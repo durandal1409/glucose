@@ -32,19 +32,24 @@ app.get("/", function(req, res) {
 });
 
 app.post("/", function(req, res) {
+    // making strings with keys for db
+    const meal = req.body.meal.toString();
+    const food = meal + '.food';
+    const glucose_before = meal + '.glucose_before';
+    const glucose_1hr_after = meal + '.glucose_1hr_after';
+    console.log("posting data: ", {[food]: (req.body.food ? req.body.food : undefined),
+    [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
+    [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)}
+);
     
-    console.log("posting data: ", req.body);
     mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
     
-
     Meals.findOneAndUpdate({date: req.body.date}, {
-            [req.body.meal]: {
-                food: req.body.food,
-                glucose_before: req.body.glucose_before,
-                glucose_1hr_after: req.body.glucose_1hr_after   
-            }
-        },
-        {upsert: true},   
+        [food]: (req.body.food ? req.body.food : undefined),
+        [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
+        [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)
+    },
+        {upsert: true, omitUndefined: true},   
         function(err, meals) {
             if (err) {
                 console.log(err);
