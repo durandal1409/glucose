@@ -8,110 +8,60 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.0/dist/chart.min.js"></script>
 
 </head>
 <body>
 
-    <form class="w3-container w3-card-4 w3-light-grey" action="/" method="post">
-        <h1>Input Form</h1>
-        <p>
-            <label>Date</label>
-            <input class="w3-input w3-border w3-round" name="date" type="date">
-        </p>
-        <p>
-            <select class="w3-select" name="meal">
-                <option value="" disabled selected>Choose meal</option>
-                <option value="breakfast">Breakfast</option>
-                <option value="second_breakfast">Second breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="afternoon_tea">Afternoon tea</option>
-                <option value="dinner">Dinner</option>
-                <option value="second_dinner">Second dinner</option>
-            </select>
-        </p>
-        <p>
-            <label>Input Food</label>
-            <input class="w3-input w3-border w3-round" name="food" type="text">
-        </p>
-        <div class="w3-row-padding">
-            <div class="w3-half">
-              <label>Glucose Before</label>
-              <input class="w3-input w3-border" name="glucose_before" type="number">
-            </div>
-            <div class="w3-half">
-              <label>Glucose 1 hour after</label>
-              <input class="w3-input w3-border" name="glucose_1hr_after" type="number">
-            </div>
-        </div>
-        <button class="w3-button w3-round" type="submit" name="submit">Submit</button>
-    </form>
+    <!-- <h1>Food and glucose data</h1> -->
+    <div id="canvas-container">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <div id="table-container" class="w3-responsive">
+    
+        <table class="w3-table-all">
+            <thead>
+                <tr>
+                    <th rowspan=2>Дата</th>
+                    <th colspan=3 class="w3-center">Завтрак</th>
+                    <th colspan=3 class="w3-center">Перекус</th>
+                    <th colspan=3 class="w3-center">Обед</th>
+                    <th colspan=3 class="w3-center">Полдник</th>
+                    <th colspan=3 class="w3-center">Ужин</th>
+                    <th colspan=3 class="w3-center">Перекус</th>
+                </tr>
+                <tr>
+                    <th class="w3-center bordered-header">Натощак</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                    <th class="w3-center">Перед</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                    <th class="w3-center">Перед</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                    <th class="w3-center">Перед</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                    <th class="w3-center">Перед</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                    <th class="w3-center">Перед</th>
+                    <th class="w3-center"><span style="opacity: 0">........</span>Еда<span style="opacity: 0">........</span></th>
+                    <th class="w3-center">1ч после</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+               
+            </tbody>
+            <tfoot>
 
 
-    <h1>Food and glucose table</h1>
-    <table class="w3-table-all">
-        <thead>
-            <tr class="w3-light-blue">
-                <th rowspan=2>Дата</th>
-                <th colspan=2 class="w3-center">Завтрак</th>
-                <th colspan=2 class="w3-center">Перекус</th>
-                <th colspan=2 class="w3-center">Обед</th>
-                <th colspan=2 class="w3-center">Полдник</th>
-                <th colspan=2 class="w3-center">Ужин</th>
-                <th colspan=2 class="w3-center">Перекус</th>
-            </tr>
-            <tr class="w3-light-blue">
-                <th class="w3-center">Натощак</th>
-                <th class="w3-center">1ч после</th>
-                <th class="w3-center">Перед</th>
-                <th class="w3-center">1ч после</th>
-                <th class="w3-center">Перед</th>
-                <th class="w3-center">1ч после</th>
-                <th class="w3-center">Перед</th>
-                <th class="w3-center">1ч после</th>
-                <th class="w3-center">Перед</th>
-                <th class="w3-center">1ч после</th>
-                <th class="w3-center">Перед</th>
-                <th class="w3-center">1ч после</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>18.06.21</td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center">3.9</td>
-                <td class="w3-center"></td>
-                <td class="w3-center">4.7</td>
-            </tr>
-            <tr>
-                <td>19.06.21</td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center"></td>
-                <td class="w3-center">3.9</td>
-                <td class="w3-center"></td>
-                <td class="w3-center">4.7</td>
-            </tr>
-        </tbody>
-        <tfoot>
-
-
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
+            
+    </div>
     <!-- Script -->
-    <script src="script.js"></script>
+    <script src="graph.js"></script>
 </body>
 </html>

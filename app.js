@@ -31,6 +31,23 @@ app.get("/", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
+app.get("/table", function(req, res) {
+    res.sendFile(__dirname + "/table.html");
+});
+
+app.get("/graph_data", function(req, res) {
+    mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+    Meals.find(function(err, graphData) {
+        if (!err) {
+            res.json(graphData);
+        } else {
+            res.send(err);
+        }
+        
+    });
+    // mongoose.connection.close();
+});
+
 app.post("/", function(req, res) {
     // making strings with keys for db
     const meal = req.body.meal.toString();
