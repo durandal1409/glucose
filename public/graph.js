@@ -1,38 +1,37 @@
-async function fetchGraphData() {
-    const resp = await fetch("/graph_data");
-    const graphData = await resp.json();
-    graphData.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
-    console.log("graphData: ", graphData);
-    const meals = ['breakfast', 'second_breakfast', 'lunch', 'afternoon_tea', 'dinner', 'second_dinner'];
-    const arraysForGraphs = graphData.map(el => {
-        let labelsArr = [];
+
+const meals = ['breakfast', 'second_breakfast', 'lunch', 'afternoon_tea', 'dinner', 'second_dinner'];
+
+function makeDate(date) {
+    return date.getDate() + '.' + (date.getMonth() + 1 < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
+}
+
+function makeGraph(fetchedData) {
+    const arraysForGraphs = fetchedData.map(dayRecord => {
+        let graphLabelsArr = [];
         let glucoseBeforeArr = [];
         let glucoseAfterArr = [];
         let foodsArr = [];
-        let date = new Date(el.date);
-        date = date.getDate() + '.' + (date.getMonth() + 1);
-        for (let key in el) {
-            if (meals.includes(key) && (el[key].glucose_before|| el[key].glucose_1hr_after)) {
-                // console.log("here: ", key, el[key].glucose_before, el[key].glucose_1hr_after, el[key].food);
-                labelsArr.push(key + ' ' + date);
-                glucoseBeforeArr.push(el[key].glucose_before);
-                glucoseAfterArr.push(el[key].glucose_1hr_after);
-                foodsArr.push(el[key].food);
+        let date = new Date(dayRecord.date);
+        date = makeDate(date);
+        for (let key in dayRecord) {
+            // choosing only meals (not dates) and those where there is some glucose data
+            if (meals.includes(key) && (dayRecord[key].glucose_before|| dayRecord[key].glucose_1hr_after)) {
+                graphLabelsArr.push(key + ' ' + date);
+                glucoseBeforeArr.push(dayRecord[key].glucose_before);
+                glucoseAfterArr.push(dayRecord[key].glucose_1hr_after);
+                // foodsArr.push(dayRecord[key].food);
             }
         };
-        return {labelsArr, glucoseBeforeArr, glucoseAfterArr, foodsArr};
+        return {graphLabelsArr, glucoseBeforeArr, glucoseAfterArr, foodsArr};
     });
-    // console.log("arrs: ", arraysForGraphs);
-
-    // making graph
-    const labels = arraysForGraphs.map(el => el.labelsArr).flat();
+    const labels = arraysForGraphs.map(el => el.graphLabelsArr).flat();
     const dataGlucoseBefore = arraysForGraphs.map(el => el.glucoseBeforeArr).flat();
     const dataGlucoseAfter = arraysForGraphs.map(el => el.glucoseAfterArr).flat();
-    const dataFoods = arraysForGraphs.map(el => el.foodsArr).flat();
-    // console.log(labels, dataGlucoseBefore, dataGlucoseAfter);
+    // const dataFoods = arraysForGraphs.map(el => el.foodsArr).flat();
+    console.log(labels, dataGlucoseBefore, dataGlucoseAfter);
     const glucoseBeforeColor = '#7ea60a';
     const glucoseAfterColor = '#431076';
-    const data = {
+    const graphData = {
         labels: labels,
         datasets: [
           {
@@ -65,7 +64,7 @@ async function fetchGraphData() {
       };
       
       const config = {
-          data: data,
+          data: graphData,
           options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -109,30 +108,41 @@ async function fetchGraphData() {
           document.getElementById('myChart'),
           config
         );
-    
-        // making table
-        const tableBody = document.getElementById("table-body");
-        graphData.forEach(el => {
-            const row = document.createElement("tr");
-            tableBody.appendChild(row);
-            let date = new Date(el.date);
-            date = date.getDate() + '.' + (date.getMonth() + 1);
-            const dateCell = document.createElement("td");
-            row.appendChild(dateCell);
-            dateCell.innerText = date;
-            meals.forEach(meal => {
-                ['glucose_before', 'food', 'glucose_1hr_after'].forEach(element => {
-                    const newCell = document.createElement("td");
-                    newCell.classList.add("w3-center");
-                    if (el[meal] && el[meal][element] != undefined) {newCell.innerText = el[meal][element]};
-                    row.appendChild(newCell);
-                });
-               
-            })
-        })
-
-    // return graphData;
 }
 
-fetchGraphData();
+function makeTable(fetchedData) {
+    const tableBody = document.getElementById("table-body");
+    fetchedData.forEach(dayRecord => {
+        const row = document.createElement("tr");
+        tableBody.appendChild(row);
+        let date = new Date(dayRecord.date);
+        date = makeDate(date);
+        const dateCell = document.createElement("td");
+        row.appendChild(dateCell);
+        dateCell.innerText = date;
+        meals.forEach(meal => {
+            ['glucose_before', 'food', 'glucose_1hr_after'].forEach(element => {
+                const newCell = document.createElement("td");
+                newCell.classList.add("w3-center");
+                if (dayRecord[meal] && dayRecord[meal][element] != undefined) {newCell.innerText = dayRecord[meal][element]};
+                row.appendChild(newCell);
+            });
+            
+        })
+    });
+}
+
+
+async function fetchData() {
+    const resp = await fetch("/graph_data");
+    const data = await resp.json();
+    data.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+    console.log("data: ", data);
+
+    makeGraph(data);
+    makeTable(data);
+    
+}
+
+fetchData();
 

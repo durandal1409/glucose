@@ -1,4 +1,4 @@
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -43,9 +43,9 @@ app.get("/graph_data", function(req, res) {
         } else {
             res.send(err);
         }
-        
+        mongoose.connection.close();
     });
-    // mongoose.connection.close();
+    
 });
 
 app.post("/", function(req, res) {
