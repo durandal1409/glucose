@@ -11,6 +11,26 @@
 
 </head>
 <body class="form-page">
+
+    <!-- Menu Overlay -->
+    <div class="w3-overlay" style="cursor:pointer" id="myOverlay"></div>
+
+    <!-- Sidebar -->
+    <div class="w3-sidebar w3-bar-block w3-animate-right" style="display:none" id="mySidebar">
+        <h2 id="menu-title">Menu</h2>
+        <a href="/" class="w3-bar-item w3-button">Form</a>
+        <a href="table" class="w3-bar-item w3-button">Data</a>
+    </div>
+
+    <!-- Menu Bars -->
+    <div class="menu-bars" id="menu-bars">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+
+
+    <!-- Form Container -->
     <div class="container">
         <h1>Input Form</h1>
         <form action="/" method="post">
@@ -51,5 +71,6 @@
 
     <!-- Script -->
     <script src="script.js"></script>
+    <script src="nav-menu.js"></script>
 </body>
 </html>
