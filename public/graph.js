@@ -135,9 +135,11 @@ function makeTable(fetchedData) {
 
 async function fetchData() {
     const resp = await fetch("/graph_data");
+    console.log("resp: ", resp);
     const data = await resp.json();
-    data.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
     console.log("data: ", data);
+    data.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+    // console.log("data: ", data);
 
     makeGraph(data);
     makeTable(data);

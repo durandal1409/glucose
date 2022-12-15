@@ -1,7 +1,8 @@
-// const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+
+mongoose.set('strictQuery', false);
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -36,15 +37,19 @@ app.get("/table", function(req, res) {
 });
 
 app.get("/graph_data", function(req, res) {
-    mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
-    Meals.find(function(err, graphData) {
-        if (!err) {
+    (async function() {
+        let client;
+        try {
+            client = await mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB");
+            let graphData = await Meals.find();
             res.json(graphData);
-        } else {
-            res.send(err);
+        } catch (err) {
+            console.log(err.stack);
         }
-        mongoose.connection.close();
-    });
+        if (client) {
+            mongoose.connection.close();
+        }
+    })();
     
 });
 
@@ -59,24 +64,26 @@ app.post("/", function(req, res) {
     [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)}
 );
     
-    mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
-    
-    Meals.findOneAndUpdate({date: req.body.date}, {
-        [food]: (req.body.food ? req.body.food : undefined),
-        [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
-        [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)
-    },
-        {upsert: true, omitUndefined: true},   
-        function(err, meals) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("found document: ", meals);
+    (async function() {
+        let client;
+        try {
+            client = await mongoose.connect("mongodb+srv://admin-maria:sneggir@cluster1.i2jjq.mongodb.net/glucoseDB");
+            
+            await Meals.findOneAndUpdate({date: req.body.date}, {
+                [food]: (req.body.food ? req.body.food : undefined),
+                [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
+                [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)
+                },
+                {upsert: true, omitUndefined: true}
+                );
+                
+            } catch(err) {
+                console.log(err.stack);
             }
-
-            mongoose.connection.close();
-        }
-    );
+            if (client) {
+                mongoose.connection.close();
+            }
+    })();
     res.redirect("/");
 });
 
