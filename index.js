@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 mongoose.set('strictQuery', false);
 
-app.use(express.urlencoded({extended: true}));
+// app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 const mealSchema = new mongoose.Schema({
@@ -96,3 +96,7 @@ if (port == null || port == "") {
 app.listen(port, function() {
     console.log("Server has started successfully.")
 });
+
+
+// Export the Express API
+module.exports = app;
