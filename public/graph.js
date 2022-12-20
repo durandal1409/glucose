@@ -2,7 +2,7 @@
 const meals = ['breakfast', 'second_breakfast', 'lunch', 'afternoon_tea', 'dinner', 'second_dinner'];
 
 function makeDate(date) {
-    return date.getDate() + '.' + (date.getMonth() + 1 < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
+    return date.getUTCDate() + '.' + (date.getMonth() + 1 < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
 }
 
 function makeGraph(fetchedData) {
@@ -36,13 +36,13 @@ function makeGraph(fetchedData) {
         datasets: [
           {
             type: 'bar',
-            label: 'перед едой',
+            label: 'Before Meal',
             data: dataGlucoseBefore,
             backgroundColor: glucoseBeforeColor
           },
           {
             type: 'bar',    
-            label: 'через 1ч после еды',
+            label: '1hr after meal',
             data: dataGlucoseAfter,
             backgroundColor: glucoseAfterColor
           },
