@@ -2,7 +2,7 @@
 const meals = ['breakfast', 'second_breakfast', 'lunch', 'afternoon_tea', 'dinner', 'second_dinner'];
 
 function makeDate(date) {
-    return date.getUTCDate() + '.' + (date.getMonth() + 1 < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
+    return date.getUTCDate() + '.' + (date.getUTCMonth() + 1 < 10 ? ("0" + (date.getUTCMonth() + 1)) : date.getUTCMonth() + 1) + '.' + date.getUTCFullYear();
 }
 
 function makeGraph(fetchedData) {
@@ -28,7 +28,7 @@ function makeGraph(fetchedData) {
     const dataGlucoseBefore = arraysForGraphs.map(el => el.glucoseBeforeArr).flat();
     const dataGlucoseAfter = arraysForGraphs.map(el => el.glucoseAfterArr).flat();
     // const dataFoods = arraysForGraphs.map(el => el.foodsArr).flat();
-    console.log(labels, dataGlucoseBefore, dataGlucoseAfter);
+    // console.log(labels, dataGlucoseBefore, dataGlucoseAfter);
     const glucoseBeforeColor = '#7ea60a';
     const glucoseAfterColor = '#431076';
     const graphData = {
@@ -135,11 +135,11 @@ function makeTable(fetchedData) {
 
 async function fetchData() {
     const resp = await fetch("/graph_data");
-    console.log("resp: ", resp);
-    const data = await resp.json();
-    console.log("data: ", data);
+    let data = await resp.json();
     data.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
-    // console.log("data: ", data);
+    // taking last 30 days of records
+    data = data.slice(-30);
+    console.log("data: ", data);
 
     makeGraph(data);
     makeTable(data);
