@@ -183,3 +183,9 @@ td:nth-child(3n) {
     font-size: 0.8rem;
   }
 }
+
+@media screen and (max-width: 500px) {
+  #canvas-container {
+    display: none;
+  }
+}

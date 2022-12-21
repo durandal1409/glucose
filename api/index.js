@@ -65,10 +65,10 @@ app.post("/", function(req, res) {
     const glucose_before = meal + '.glucose_before';
     const glucose_1hr_after = meal + '.glucose_1hr_after';
 
-    console.log("posting data: ", {[food]: (req.body.food ? req.body.food : undefined),
-        [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
-        [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)}
-    );
+    // console.log("posting data: ", {[food]: (req.body.food ? req.body.food : undefined),
+    //     [glucose_before]: (req.body.glucose_before ? req.body.glucose_before : undefined),
+    //     [glucose_1hr_after]: (req.body.glucose_1hr_after ? req.body.glucose_1hr_after : undefined)}
+    // );
 
     (async function() {
         
